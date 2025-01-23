@@ -1,0 +1,10 @@
+IndentWidth: 2 
+
+SortIncludes: Never
+
+AlignConsecutiveAssignments : true
+AlignConsecutiveDeclarations: true
+
+# Break before braces on functions, namespaces and class definitions
+BreakBeforeBraces: Linux
+AllowShortFunctionsOnASingleLine: None
