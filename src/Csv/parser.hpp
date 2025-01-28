@@ -28,6 +28,24 @@ class Parser
 public:
   Parser(std::istream &input);
 
+  // Functions used for configuration
+  Parser &&delimiter(char value)
+  {
+    m_Delimiter = value;
+    return std::move(*this);
+  }
+  Parser &&quote(char value)
+  {
+    m_Quote = value;
+    return std::move(*this);
+  }
+  Parser &&newLine(char value)
+  {
+    m_NewLine = value;
+    return std::move(*this);
+  }
+
+  // Functions used for parsing
   Field nextField();
 
 private:
