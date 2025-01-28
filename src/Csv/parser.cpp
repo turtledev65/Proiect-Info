@@ -36,6 +36,7 @@ Field Parser::nextField()
       m_Cursor++;
       if (ch == m_NewLine) {
         m_State = State::END_OF_ROW;
+        return Field(std::move(m_FieldBuffer));
       }
 
       if (ch == m_Quote) {
@@ -98,7 +99,7 @@ Field Parser::nextField()
       return Field(FieldType::ROW_END);
 
     case State::END_OF_CSV:
-      return Field(FieldType::CSV_END);
+      throw std::logic_error("Something went wrong");
     }
   }
 }
