@@ -17,6 +17,9 @@ Parser::Parser(std::istream &input) : m_Input(&input)
 
 Field Parser::nextField()
 {
+  if (m_State == State::END_OF_CSV) {
+    return Field(FieldType::CSV_END);
+  }
   m_FieldBuffer.clear();
 
   for (;;) {
@@ -30,6 +33,7 @@ Field Parser::nextField()
     char ch = *token;
     switch (m_State) {
     case State::START_OF_FIELD:
+      m_Cursor++;
       if (ch == m_NewLine) {
         m_State = State::END_OF_ROW;
       }
@@ -43,10 +47,10 @@ Field Parser::nextField()
         m_FieldBuffer += ch;
       }
 
-      m_Cursor++;
       break;
 
     case State::IN_FIELD:
+      m_Cursor++;
       if (ch == m_NewLine) {
         m_State = State::END_OF_ROW;
         return Field(std::move(m_FieldBuffer));
@@ -57,20 +61,20 @@ Field Parser::nextField()
       }
 
       m_FieldBuffer += ch;
-      m_Cursor++;
       break;
 
     case State::IN_QUOTED_FIELD:
+      m_Cursor++;
       if (ch == m_Quote) {
         m_State = State::IN_ESCAPED_QUOTE;
       } else {
         m_FieldBuffer += ch;
       }
 
-      m_Cursor++;
       break;
 
     case State::IN_ESCAPED_QUOTE:
+      m_Cursor++;
       if (ch == m_NewLine) {
         m_State = State::END_OF_ROW;
         return Field(std::move(m_FieldBuffer));
@@ -87,7 +91,6 @@ Field Parser::nextField()
         m_FieldBuffer += ch;
       }
 
-      m_Cursor++;
       break;
 
     case State::END_OF_ROW:
@@ -95,7 +98,7 @@ Field Parser::nextField()
       return Field(FieldType::ROW_END);
 
     case State::END_OF_CSV:
-      throw std::runtime_error("Something went wrong");
+      return Field(FieldType::CSV_END);
     }
   }
 }
