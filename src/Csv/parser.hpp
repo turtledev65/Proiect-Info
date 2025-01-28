@@ -49,6 +49,40 @@ public:
   // Functions used for parsing
   Field nextField();
 
+  // Iterator implementation, which reads row by row
+  class iterator
+  {
+  public:
+    using value_t = std::vector<std::string>;
+
+    explicit iterator(Parser *p, bool end = false);
+
+    iterator      &operator++();
+    iterator       operator++(int);
+    const value_t &operator*();
+    const value_t *operator->();
+    bool           operator==(const iterator &other);
+    bool           operator!=(const iterator &other);
+
+  private:
+    Parser *m_Parser;
+    size_t  m_CurrRow = -1;
+
+    static constexpr size_t DEFAULT_ROW_CAPACITY = 50;
+    value_t                 m_Row{};
+
+    void next();
+  };
+
+  iterator begin()
+  {
+    return iterator(this);
+  };
+  iterator end()
+  {
+    return iterator(this, true);
+  };
+
 private:
   // Configurable attributes
   std::istream *m_Input;

@@ -112,4 +112,75 @@ char *Parser::topToken()
 
   return &m_InputBuffer[m_Cursor];
 }
+
+// Iterator implementation
+using iterator = Parser::iterator;
+
+iterator::iterator(Parser *p, bool end) : m_Parser(p)
+{
+  if (!end) {
+    m_Row.reserve(DEFAULT_ROW_CAPACITY);
+    m_CurrRow = 0;
+    next();
+  }
+}
+
+iterator &iterator::operator++()
+{
+  next();
+  return *this;
+}
+iterator iterator::operator++(int)
+{
+  iterator i = (*this);
+  ++(*this);
+  return i;
+}
+const iterator::value_t &iterator::operator*()
+{
+  return m_Row;
+};
+const iterator::value_t *iterator::operator->()
+{
+  return &m_Row;
+}
+bool iterator::operator==(const iterator &other)
+{
+  return m_CurrRow == other.m_CurrRow && m_Row.size() == other.m_Row.size();
+}
+bool iterator::operator!=(const iterator &other)
+{
+  return !(*this == other);
+}
+
+void iterator::next()
+{
+  size_t numFields = 0;
+  for (;;) {
+    Field field = m_Parser->nextField();
+    switch (field.type) {
+    case FieldType::DATA:
+      if (numFields < m_Row.size()) {
+        m_Row[numFields] = std::move(field.data);
+      } else {
+        m_Row.push_back(std::move(field.data));
+      }
+      numFields++;
+      continue;
+    case FieldType::ROW_END:
+      if (numFields < m_Row.size()) {
+        m_Row.resize(numFields);
+      }
+      m_CurrRow++;
+      return;
+    case FieldType::CSV_END:
+      if (numFields < m_Row.size()) {
+        m_Row.resize(numFields);
+      }
+      m_CurrRow = -1;
+      return;
+    }
+  }
+}
+
 } // namespace Csv
