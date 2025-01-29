@@ -1,12 +1,56 @@
 #include <fstream>
 #include "Csv/parser.hpp"
 
-struct Area {
-  Area(const std::string &str) : name(str)
-  {
-  }
+// Data Types
 
+// Sex
+struct Sex {
+  Sex(size_t m, size_t f) : male(m), female(f) {};
+
+  size_t male   = 0;
+  size_t female = 0;
+
+  size_t getTotal()
+  {
+    return male + female;
+  };
+};
+
+// Ethnicity
+#define ETHNICITY_COUNT 23
+enum class EthnicityType {
+  ROMANIAN = 0,
+  HUNGARIAN,
+  ROMA,
+  UKRAINIAN,
+  GERMAN,
+  TURKISH,
+  RUSSIAN_LIPOVAN,
+  TATAR,
+  SERB,
+  SLOVAK,
+  BULGARIAN,
+  CROATIAN,
+  GREEK,
+  ITALIAN,
+  JEW,
+  CZECH,
+  POLE,
+  RUTHENIAN,
+  ARMENIAN,
+  ALBANIAN,
+  MACEDONIAN,
+  OTHER,
+  INFORMATION_UNAVAILABLE,
+};
+struct Ethnicity {
+  Sex           sex;
+  EthnicityType type;
+};
+
+struct Area {
   std::string name = "";
+  Ethnicity   ethnicities[ETHNICITY_COUNT];
 };
 
 int main()
@@ -20,7 +64,6 @@ int main()
     for (auto &field : row) {
       bool isArea = row.size() == 2 && field.size() > 0;
       if (isArea) {
-        areas.emplace_back(std::move(field));
       }
     }
   }
