@@ -52,7 +52,15 @@ struct Ethnicity {
   EthnicityType type;
 };
 
+// Area
 struct Area {
+  Area(const std::string &n) : name(n)
+  {
+    for (int i = 0; i < ETHNICITY_COUNT; i++) {
+      ethnicities[i].type = static_cast<EthnicityType>(i);
+    }
+  }
+
   std::string name = "";
   Ethnicity   ethnicities[ETHNICITY_COUNT];
 };
