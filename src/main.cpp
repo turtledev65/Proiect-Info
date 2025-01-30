@@ -44,6 +44,10 @@ enum class EthnicityType {
   INFORMATION_UNAVAILABLE,
 };
 struct Ethnicity {
+  Ethnicity() : sex(0, 0), type(EthnicityType::ROMANIAN)
+  {
+  }
+
   Sex           sex;
   EthnicityType type;
 };
