@@ -91,7 +91,7 @@ int main()
   }
 
   // Generate the html document
-  Html::Generator generator("res/statics-website/index.html");
+  Html::Generator generator("res/statistics-website-template/index.html");
   generator.parseTemplateToFile("./index.html");
 }
 
