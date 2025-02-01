@@ -1,0 +1,91 @@
+:root {
+  --color-green: #70af2d;
+  --color-cyan: #1a92a3;
+  --color-red: #e26261;
+  --color-violet: #7258b1;
+  --color-yellow: #cbab00;
+  --color-blue: #4267c3;
+  --color-grey: #cbcbcb;
+  --color-pink: #e777af;
+  --color-orange: #e96800;
+
+  --color-accent: yellow;
+}
+
+body {
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.main-container {
+  flex: 1;
+  display: flex;
+}
+
+/* Map */
+.map-container {
+  flex: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 1rem;
+}
+
+.region:hover {
+  fill: var(--color-accent);
+}
+
+.historic-region-moldova {
+  fill: var(--color-green);
+}
+
+.historic-region-constanta {
+  fill: var(--color-cyan);
+}
+
+.historic-region-muntenia {
+  fill: var(--color-red);
+}
+
+.historic-region-bucovina {
+  fill: var(--color-violet);
+}
+
+.historic-region-transilvania {
+  fill: var(--color-blue);
+}
+
+.historic-region-maramures {
+  fill: var(--color-yellow);
+}
+
+.historic-region-oltenia {
+  fill: var(--color-grey);
+}
+
+.historic-region-banat {
+  fill: var(--color-orange);
+}
+
+.historic-region-crisana {
+  fill: var(--color-pink);
+}
+
+/* Statistics */
+.statistics-container {
+  flex: 1;
+}
+
+.statistics-title {
+  font-size: 1.5rem;
+  text-align: center;
+}

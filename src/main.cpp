@@ -1,5 +1,6 @@
-#include <fstream>
 #include "Csv/parser.hpp"
+#include "Html/generator.hpp"
+#include <fstream>
 
 // Data Types
 
@@ -76,8 +77,8 @@ std::vector<Area> readCsvFile(const std::string &path);
 // Main
 int main()
 {
-  std::vector<Area> areas = readCsvFile("res/Recensamant-2021.csv");
-
+  // Read data from csv file
+  std::vector<Area> areas = readCsvFile("res/data/Recensamant-2021.csv");
   for (const auto &area : areas) {
     std::cout << area.name << std::endl;
     for (int i = 0; i < ETHNICITY_COUNT; i++) {
@@ -88,6 +89,10 @@ int main()
                 << " Total: " << ethnicity.sex.getTotal() << std::endl;
     }
   }
+
+  // Generate the html document
+  Html::Generator generator("res/statics-website/index.html");
+  generator.parseTemplateToFile("./index.html");
 }
 
 // Function Implementations
