@@ -12,9 +12,7 @@ enum class FieldType {
   CSV_END,
 };
 struct Field {
-  explicit Field(FieldType t) : type(t)
-  {
-  }
+  explicit Field(FieldType t) : type(t) {}
   explicit Field(const std::string &&str)
       : type(FieldType::DATA), data(std::move(str))
   {
@@ -74,14 +72,8 @@ public:
     void next();
   };
 
-  iterator begin()
-  {
-    return iterator(this);
-  };
-  iterator end()
-  {
-    return iterator(this, true);
-  };
+  iterator begin() { return iterator(this); };
+  iterator end() { return iterator(this, true); };
 
 private:
   // Configurable attributes

@@ -10,10 +10,7 @@ struct Sex {
   size_t male   = 0;
   size_t female = 0;
 
-  size_t getTotal()
-  {
-    return male + female;
-  };
+  size_t getTotal() { return male + female; };
 };
 
 // Ethnicity
@@ -44,9 +41,7 @@ enum class EthnicityType {
   INFORMATION_UNAVAILABLE,
 };
 struct Ethnicity {
-  Ethnicity() : sex(0, 0), type(EthnicityType::ROMANIAN)
-  {
-  }
+  Ethnicity() : sex(0, 0), type(EthnicityType::ROMANIAN) {}
 
   Sex           sex;
   EthnicityType type;

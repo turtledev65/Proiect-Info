@@ -1,4 +1,4 @@
-IndentWidth: 2 
+IndentWidth: 2
 
 SortIncludes: Never
 
@@ -7,4 +7,3 @@ AlignConsecutiveDeclarations: true
 
 # Break before braces on functions, namespaces and class definitions
 BreakBeforeBraces: Linux
-AllowShortFunctionsOnASingleLine: None
