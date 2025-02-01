@@ -19,7 +19,7 @@ Generator::Generator(const fs::path &templatePath)
 std::string Generator::parseTemplate()
 {
   std::stringstream out;
-  std::string line;
+  std::string       line;
   while (getline(*m_Input, line)) {
     size_t pos = line.find("<!-- #include");
     if (pos != std::string::npos) {
