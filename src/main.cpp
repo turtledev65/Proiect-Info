@@ -92,7 +92,9 @@ int main()
 
   // Generate the html document
   Html::Generator generator("res/statistics-website-template/index.html");
+  generator.define("MESSAGE", Html::ConvertType::JSON, []() { return "Hi"; });
   generator.parseTemplateToFile("./index.html");
+  std::cout << "Generated html file" << std::endl;
 }
 
 // Function Implementations
