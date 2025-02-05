@@ -115,6 +115,15 @@ struct Area {
     return out;
   }
 
+  size_t getTotalPopulation() const
+  {
+    size_t out = 0;
+    for (size_t i; i < ETHNICITY_COUNT; i++) {
+      out += ethnicities[i].sex.getTotal();
+    }
+    return out;
+  }
+
   std::string getId() const
   {
     if (areaMap.find(name) == areaMap.end())
@@ -163,7 +172,9 @@ std::string convertAreasToJson(const std::vector<Area> &areas)
   for (size_t i = 0; i < areas.size(); i++) {
     const Area &area = areas[i];
     out << "\"" << area.getId() << "\"" << ": {"
-        << "\"name\": \"" << area.name << "\"" << ',' << "\"ethnicities\": [";
+        << "\"name\": \"" << area.name << "\"" << ','
+        << "\"totalPopulation\":" << area.getTotalPopulation() << ','
+        << "\"ethnicities\": [";
     for (size_t j = 0; j < ETHNICITY_COUNT; j++) {
       out << "{\"type\": " << static_cast<int>(area.ethnicities[j].type) << ','
           << "\"total\":" << area.ethnicities[j].sex.getTotal() << '}';
