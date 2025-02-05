@@ -55,10 +55,10 @@ std::string Generator::parseTemplate()
             out << keyword << " " << name << " = ";
             switch (value.convertType) {
             case ConvertType::STRING:
-              out << "\"" << value.convert() << "\"";
+              out << '`' << value.convert() << '`';
               break;
             case ConvertType::JSON:
-              out << "JSON.parse(\"" << value.convert() << "\")";
+              out << "JSON.parse(" << value.convert() << ")";
               break;
             }
 
