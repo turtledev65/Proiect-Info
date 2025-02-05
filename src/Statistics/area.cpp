@@ -46,7 +46,7 @@ Sex Area::getSexTotal() const
 size_t Area::getTotalPopulation() const
 {
   size_t out = 0;
-  for (size_t i; i < ETHNICITY_COUNT; i++) {
+  for (size_t i = 0; i < ETHNICITY_COUNT; i++) {
     out += m_Ethnicities[i].sex.getTotal();
   }
   return out;
