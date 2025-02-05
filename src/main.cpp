@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "Statistics/area.hpp"
+#include "Core/utils.hpp"
 
 using namespace Statistics;
 
@@ -34,6 +35,7 @@ int main()
                    [areas]() { return convertAreasToJson(areas); });
   generator.parseTemplateToFile("./index.html");
   std::cout << "Generated html file" << std::endl;
+  Utils::systemOpenHTMLDoc("./index.html");
 }
 
 // Function Implementations
