@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <sstream>
 #include <unordered_map>
 
 #include "Statistics/sex.hpp"
@@ -13,9 +14,10 @@ class Area
 public:
   Area(const std::string &n);
 
-  std::string name = "";
-  Ethnicity   ethnicities[ETHNICITY_COUNT];
+  std::string m_Name = "";
+  Ethnicity   m_Ethnicities[ETHNICITY_COUNT];
 
+  std::string toJSON() const;
   Sex         getSexTotal() const;
   size_t      getTotalPopulation() const;
   std::string getId() const;

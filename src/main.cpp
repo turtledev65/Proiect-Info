@@ -16,9 +16,9 @@ int main()
   // Read data from csv file
   std::vector<Area> areas = readCsvFile("res/data/Recensamant-2021.csv");
   for (const auto &area : areas) {
-    std::cout << area.name << std::endl;
+    std::cout << area.m_Name << std::endl;
     for (int i = 0; i < ETHNICITY_COUNT; i++) {
-      Ethnicity ethnicity = area.ethnicities[i];
+      Ethnicity ethnicity = area.m_Ethnicities[i];
       std::cout << static_cast<int>(ethnicity.type)
                 << " Barbati: " << ethnicity.sex.male
                 << " Femei: " << ethnicity.sex.female
@@ -44,18 +44,7 @@ std::string convertAreasToJson(const std::vector<Area> &areas)
   out << "`{";
   for (size_t i = 0; i < areas.size(); i++) {
     const Area &area = areas[i];
-    out << "\"" << area.getId() << "\"" << ": {"
-        << "\"name\": \"" << area.name << "\"" << ','
-        << "\"totalPopulation\":" << area.getTotalPopulation() << ','
-        << "\"ethnicities\": [";
-    for (size_t j = 0; j < ETHNICITY_COUNT; j++) {
-      out << "{\"type\": " << static_cast<int>(area.ethnicities[j].type) << ','
-          << "\"total\":" << area.ethnicities[j].sex.getTotal() << '}';
-      if (j < ETHNICITY_COUNT - 1) {
-        out << ',';
-      }
-    }
-    out << ']' << '}';
+    out << area.toJSON();
     if (i < areas.size() - 1) {
       out << ',';
     }
@@ -111,14 +100,14 @@ std::vector<Area> readCsvFile(const std::string &path)
         break;
       case State::IN_MALE_ROW:
         if (field.size() > 0 && field != "*" && field != "-") {
-          size_t count                                  = stoi(field);
-          areas.back().ethnicities[colIdx - 1].sex.male = count;
+          size_t count                                    = stoi(field);
+          areas.back().m_Ethnicities[colIdx - 1].sex.male = count;
         }
         break;
       case State::IN_FEMALE_ROW:
         if (field.size() > 0 && field != "*" && field != "-") {
-          size_t count                                    = stoi(field);
-          areas.back().ethnicities[colIdx - 1].sex.female = count;
+          size_t count                                      = stoi(field);
+          areas.back().m_Ethnicities[colIdx - 1].sex.female = count;
         }
         break;
       default:

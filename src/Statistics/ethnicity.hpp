@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <sstream>
+
 #include "Statistics/sex.hpp"
 
 namespace Statistics
@@ -37,5 +40,7 @@ struct Ethnicity {
 
   Sex           sex;
   EthnicityType type;
+
+  std::string toJSON() const;
 };
 } // namespace Statistics
