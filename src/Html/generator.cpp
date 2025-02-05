@@ -130,7 +130,7 @@ fs::path Generator::getIncludePath(const std::string &line, size_t startPos)
 
   fs::path filePath(pathStr);
   if (filePath.is_relative()) {
-    filePath = m_RelativePath / fs::relative(filePath);
+    filePath = m_RelativePath / fs::proximate(filePath);
   }
   return filePath;
 }
