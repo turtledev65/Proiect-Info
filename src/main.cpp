@@ -16,25 +16,12 @@ int main()
 {
   // Read data from csv file
   std::vector<Area> areas = readCsvFile("res/data/Recensamant-2021.csv");
-  for (const auto &area : areas) {
-    std::cout << area.m_Name << std::endl;
-    for (int i = 0; i < ETHNICITY_COUNT; i++) {
-      Ethnicity ethnicity = area.m_Ethnicities[i];
-      std::cout << static_cast<int>(ethnicity.type)
-                << " Barbati: " << ethnicity.sex.male
-                << " Femei: " << ethnicity.sex.female
-                << " Total: " << ethnicity.sex.getTotal() << std::endl;
-    }
-  }
-
-  std::cout << "Generated Json:\n" << convertAreasToJson(areas);
 
   // Generate the html document
   Html::Generator generator("res/statistics-website-template/index.html");
   generator.define("AREAS", Html::ConvertType::JSON,
                    [areas]() { return convertAreasToJson(areas); });
   generator.parseTemplateToFile("./index.html");
-  std::cout << "Generated html file" << std::endl;
   Utils::systemOpenHTMLDoc("./index.html");
 }
 
