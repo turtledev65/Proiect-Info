@@ -11,7 +11,7 @@ struct Sex {
   size_t male   = 0;
   size_t female = 0;
 
-  size_t getTotal() { return male + female; };
+  size_t getTotal() const { return male + female; };
 };
 
 // Ethnicity
@@ -49,6 +49,51 @@ struct Ethnicity {
 };
 
 // Area
+std::unordered_map<std::string, std::string> areaMap = {
+    {"ROMANIA", "RO"},
+    {"ALBA", "AB"},
+    {"BISTRITA-NASAUD", "BN"},
+    {"BRASOV", "BV"},
+    {"CLUJ", "CJ"},
+    {"COVASNA", "CV"},
+    {"HUNEDOARA", "HD"},
+    {"HARGHITA", "HR"},
+    {"MURES", "MS"},
+    {"SIBIU", "SB"},
+    {"SALAJ", "SJ"},
+    {"ARGES", "AG"},
+    {"BRAILA", "BR"},
+    {"MUNICIPIUL BUCURESTI", "B"},
+    {"BUZAU", "BZ"},
+    {"CALARASI", "CL"},
+    {"DAMBOVITA", "DB"},
+    {"GIURGIU", "GR"},
+    {"ILFOV", "IF"},
+    {"IALOMITA", "IL"},
+    {"PRAHOVA", "PH"},
+    {"TELEORMAN", "TR"},
+    {"ARAD", "AR"},
+    {"BIHOR", "BH"},
+    {"BACAU", "BC"},
+    {"BOTOSANI", "BT"},
+    {"GALATI", "GL"},
+    {"IASI", "IS"},
+    {"NEAMT", "NT"},
+    {"VRANCEA", "VN"},
+    {"VASLUI", "VS"},
+    {"CARAS-SEVERIN", "CS"},
+    {"TIMIS", "TM"},
+    {"CONSTANTA", "CT"},
+    {"TULCEA", "TL"},
+    {"DOLJ", "DJ"},
+    {"GORJ", "GJ"},
+    {"MEHEDINTI", "MH"},
+    {"OLT", "OT"},
+    {"VALCEA", "VL"},
+    {"MARAMURES", "MM"},
+    {"SATU MARE", "SM"},
+    {"SUCEAVA", "SV"}};
+
 struct Area {
   Area(const std::string &n) : name(n)
   {
@@ -69,10 +114,19 @@ struct Area {
     }
     return out;
   }
+
+  std::string getId() const
+  {
+    if (areaMap.find(name) == areaMap.end())
+      return "";
+
+    return areaMap[name];
+  }
 };
 
 // Functions
 std::vector<Area> readCsvFile(const std::string &path);
+std::string       convertAreasToJson(const std::vector<Area> &areas);
 
 // Main
 int main()
@@ -90,14 +144,43 @@ int main()
     }
   }
 
+  std::cout << "Generated Json:\n" << convertAreasToJson(areas);
+
   // Generate the html document
   Html::Generator generator("res/statistics-website-template/index.html");
-  generator.define("MESSAGE", Html::ConvertType::JSON, []() { return "Hi"; });
+  generator.define("AREAS", Html::ConvertType::JSON,
+                   [areas]() { return convertAreasToJson(areas); });
   generator.parseTemplateToFile("./index.html");
   std::cout << "Generated html file" << std::endl;
 }
 
 // Function Implementations
+std::string convertAreasToJson(const std::vector<Area> &areas)
+{
+  std::stringstream out;
+
+  out << "`{";
+  for (size_t i = 0; i < areas.size(); i++) {
+    const Area &area = areas[i];
+    out << "\"" << area.getId() << "\"" << ": {"
+        << "\"name\": \"" << area.name << "\"" << ',' << "\"ethnicities\": [";
+    for (size_t j = 0; j < ETHNICITY_COUNT; j++) {
+      out << "{\"type\": " << static_cast<int>(area.ethnicities[j].type) << ','
+          << "\"total\":" << area.ethnicities[j].sex.getTotal() << '}';
+      if (j < ETHNICITY_COUNT - 1) {
+        out << ',';
+      }
+    }
+    out << ']' << '}';
+    if (i < areas.size() - 1) {
+      out << ',';
+    }
+  }
+  out << "}`";
+
+  return out.str();
+}
+
 std::vector<Area> readCsvFile(const std::string &path)
 {
   std::ifstream file(path);
