@@ -8,7 +8,8 @@
 namespace Statistics
 {
 enum class EthnicityType {
-  ROMANIAN = 0,
+  TOTAL = 0,
+  ROMANIAN,
   HUNGARIAN,
   ROMA,
   UKRAINIAN,

@@ -35,21 +35,12 @@ std::string Area::toJSON() const
 
 Sex Area::getSexTotal() const
 {
-  Sex out;
-  for (int i = 0; i < ETHNICITY_COUNT; i++) {
-    out.male += m_Ethnicities[i].sex.male;
-    out.female += m_Ethnicities[i].sex.female;
-  }
-  return out;
+  return m_Ethnicities[0].sex;
 }
 
 size_t Area::getTotalPopulation() const
 {
-  size_t out = 0;
-  for (size_t i = 0; i < ETHNICITY_COUNT; i++) {
-    out += m_Ethnicities[i].sex.getTotal();
-  }
-  return out;
+  return getSexTotal().getTotal();
 }
 
 std::string Area::getId() const
