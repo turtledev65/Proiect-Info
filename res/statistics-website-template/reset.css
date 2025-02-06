@@ -6,9 +6,9 @@
 
 html {
   font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji"; /* 1 */
-  line-height: 1.15; /* 2 */
-  -webkit-text-size-adjust: 100%; /* 3 */
+    "Apple Color Emoji", "Segoe UI Emoji";
+  line-height: 1.15;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -17,4 +17,13 @@ body {
 
 small {
   font-size: 80%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }
