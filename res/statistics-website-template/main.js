@@ -1,5 +1,3 @@
-console.log(AREAS);
-
 class Popup {
   constructor() {
     const container = document.createElement("div");
@@ -13,15 +11,27 @@ class Popup {
 
     const table = document.createElement("table");
     table.classList.add("popup-table");
+    const tableBody = document.createElement("tbody");
+    table.appendChild(tableBody);
 
-    const row = document.createElement("trow");
-    const name = document.createElement("td");
-    name.innerText = "Populatie";
-    row.appendChild(name);
+    const historicalRegionRow = document.createElement("tr");
+    const historicalRegionName = document.createElement("td");
+    historicalRegionName.innerText = "Regiune Istorica";
+    historicalRegionRow.appendChild(historicalRegionName);
+    const historicalRegion = document.createElement("td");
+    historicalRegion.innerText = "Regiune";
+    historicalRegionRow.appendChild(historicalRegion);
+    tableBody.appendChild(historicalRegionRow);
+
+    const populationRow = document.createElement("tr");
+    const populationName = document.createElement("td");
+    populationName.innerText = "Populatie";
+    populationRow.appendChild(populationName);
     const population = document.createElement("td");
     population.innerText = "0";
-    row.appendChild(population);
-    table.appendChild(row);
+    populationRow.appendChild(population);
+    tableBody.appendChild(populationRow);
+
 
     container.appendChild(table);
 
