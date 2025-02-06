@@ -1,21 +1,22 @@
 #include "Csv/reader.hpp"
 #include "Html/generator.hpp"
-#include <fstream>
-
 #include "Statistics/area.hpp"
 #include "Core/utils.hpp"
 
+#include <fstream>
+
+using namespace std;
 using namespace Statistics;
 
 // Functions
-std::vector<Area> readCsvFile(const std::string &path);
-std::string       convertAreasToJson(const std::vector<Area> &areas);
+vector<Area> readCsvFile(const string &path);
+string       convertAreasToJson(const vector<Area> &areas);
 
 // Main
 int main()
 {
   // Read data from csv file
-  std::vector<Area> areas = readCsvFile("res/data/Recensamant-2021.csv");
+  vector<Area> areas = readCsvFile("res/data/Recensamant-2021.csv");
 
   // Generate the html document
   Html::Generator generator("res/statistics-website-template/index.html");
@@ -26,9 +27,9 @@ int main()
 }
 
 // Function Implementations
-std::string convertAreasToJson(const std::vector<Area> &areas)
+string convertAreasToJson(const vector<Area> &areas)
 {
-  std::stringstream out;
+  stringstream out;
 
   out << "`{";
   for (size_t i = 0; i < areas.size(); i++) {
@@ -43,11 +44,11 @@ std::string convertAreasToJson(const std::vector<Area> &areas)
   return out.str();
 }
 
-std::vector<Area> readCsvFile(const std::string &path)
+vector<Area> readCsvFile(const string &path)
 {
-  std::ifstream file(path);
+  ifstream file(path);
   if (!file.is_open()) {
-    throw std::runtime_error("File not found");
+    throw runtime_error("File not found");
   }
 
   Csv::Reader reader =
@@ -62,7 +63,7 @@ std::vector<Area> readCsvFile(const std::string &path)
   };
   State state;
 
-  std::vector<Area> areas;
+  vector<Area> areas;
   areas.reserve(50);
 
   for (auto &row : reader) {
