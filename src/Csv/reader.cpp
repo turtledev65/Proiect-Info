@@ -1,8 +1,8 @@
-#include "parser.hpp"
+#include "reader.hpp"
 
 namespace Csv
 {
-Parser::Parser(std::istream &input) : m_Input(&input)
+Reader::Reader(std::istream &input) : m_Input(&input)
 {
   if (!m_Input->good()) {
     throw std::runtime_error("Something is wrong with the input stream");
@@ -15,7 +15,7 @@ Parser::Parser(std::istream &input) : m_Input(&input)
   m_Eof       = m_Input->eof();
 }
 
-Field Parser::nextField()
+Field Reader::nextField()
 {
   if (m_State == State::END_OF_CSV) {
     return Field(FieldType::CSV_END);
@@ -104,7 +104,7 @@ Field Parser::nextField()
   }
 }
 
-char *Parser::topToken()
+char *Reader::topToken()
 {
   if (m_Cursor == m_BytesRead && m_Eof) {
     return nullptr;
@@ -114,9 +114,9 @@ char *Parser::topToken()
 }
 
 // Iterator implementation
-using iterator = Parser::iterator;
+using iterator = Reader::iterator;
 
-iterator::iterator(Parser *p, bool end) : m_Parser(p)
+iterator::iterator(Reader *p, bool end) : m_Reader(p)
 {
   if (!end) {
     m_Row.reserve(DEFAULT_ROW_CAPACITY);
@@ -157,7 +157,7 @@ void iterator::next()
 {
   size_t numFields = 0;
   for (;;) {
-    Field field = m_Parser->nextField();
+    Field field = m_Reader->nextField();
     switch (field.type) {
     case FieldType::DATA:
       if (numFields < m_Row.size()) {

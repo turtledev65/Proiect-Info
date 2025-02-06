@@ -1,4 +1,4 @@
-#include "Csv/parser.hpp"
+#include "Csv/reader.hpp"
 #include "Html/generator.hpp"
 #include <fstream>
 
@@ -50,10 +50,10 @@ std::vector<Area> readCsvFile(const std::string &path)
     throw std::runtime_error("File not found");
   }
 
-  Csv::Parser parser =
-      Csv::Parser(file).delimiter(',').quote('"').newLine('\n');
+  Csv::Reader reader =
+      Csv::Reader(file).delimiter(',').quote('"').newLine('\n');
 
-  // state of the parser
+  // state of the reader
   enum class State {
     IN_AREA_ROW = 0,
     IN_STATISTICS_ROW,
@@ -65,7 +65,7 @@ std::vector<Area> readCsvFile(const std::string &path)
   std::vector<Area> areas;
   areas.reserve(50);
 
-  for (auto &row : parser) {
+  for (auto &row : reader) {
     if (row.size() == 2) {
       state = State::IN_AREA_ROW;
     } else {

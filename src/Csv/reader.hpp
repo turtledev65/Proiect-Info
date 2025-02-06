@@ -22,23 +22,23 @@ struct Field {
   std::string data;
 };
 
-class Parser
+class Reader
 {
 public:
-  Parser(std::istream &input);
+  Reader(std::istream &input);
 
   // Functions used for configuration
-  Parser &&delimiter(char value)
+  Reader &&delimiter(char value)
   {
     m_Delimiter = value;
     return std::move(*this);
   }
-  Parser &&quote(char value)
+  Reader &&quote(char value)
   {
     m_Quote = value;
     return std::move(*this);
   }
-  Parser &&newLine(char value)
+  Reader &&newLine(char value)
   {
     m_NewLine = value;
     return std::move(*this);
@@ -53,7 +53,7 @@ public:
   public:
     using value_t = std::vector<std::string>;
 
-    explicit iterator(Parser *p, bool end = false);
+    explicit iterator(Reader *p, bool end = false);
 
     iterator      &operator++();
     iterator       operator++(int);
@@ -63,7 +63,7 @@ public:
     bool           operator!=(const iterator &other);
 
   private:
-    Parser *m_Parser;
+    Reader *m_Reader;
     size_t  m_CurrRow = -1;
 
     static constexpr size_t DEFAULT_ROW_CAPACITY = 50;
