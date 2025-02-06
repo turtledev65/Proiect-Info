@@ -55,6 +55,5 @@ private:
   // State for parsing the include
   enum class State { NORMAL = 0, QUOTE_OPEN, QUOTE_CLOSED };
   fs::path    getIncludePath(const std::string &line, size_t startPos = 0);
-  std::string getDefineName(const std::string &line, size_t startPos = 0);
 };
 } // namespace Html

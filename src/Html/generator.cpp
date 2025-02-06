@@ -70,19 +70,6 @@ std::string Generator::parseTemplate()
         }
         out << "<script>\n" << fileContents << "</script>\n";
       }
-    } else if (line.find("<!-- #define") != std::string::npos) {
-      std::string name = std::move(getDefineName(line));
-      if (m_Defines.find(name) == m_Defines.end()) {
-        throw std::runtime_error("Define was not created");
-      }
-
-      if (line.find("_var") != std::string::npos) {
-        m_Defines[name].type = DefineType::VAR;
-      } else if (line.find("_let") != std::string::npos) {
-        m_Defines[name].type = DefineType::LET;
-      } else if (line.find("_const") != std::string::npos) {
-        m_Defines[name].type = DefineType::CONST;
-      }
     } else {
       out << line << '\n';
     }
@@ -133,40 +120,6 @@ fs::path Generator::getIncludePath(const std::string &line, size_t startPos)
     filePath = m_RelativePath / fs::proximate(filePath);
   }
   return filePath;
-}
-
-std::string Generator::getDefineName(const std::string &line, size_t startPos)
-{
-  std::string out;
-  out.reserve(line.size());
-
-  State state = State::NORMAL;
-  for (size_t i = startPos; i < line.size(); i++) {
-    if (state == State::QUOTE_CLOSED) {
-      break;
-    }
-
-    char ch = line[i];
-    switch (state) {
-    case State::NORMAL:
-      if (ch == '"') {
-        state = State::QUOTE_OPEN;
-      }
-      break;
-    case State::QUOTE_OPEN:
-      if (ch == '"') {
-        state = State::QUOTE_CLOSED;
-        break;
-      }
-      out += ch;
-      break;
-    case State::QUOTE_CLOSED:
-    default:
-      break;
-    }
-  }
-
-  return out;
 }
 
 } // namespace Html
