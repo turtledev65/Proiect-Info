@@ -9,30 +9,8 @@ class Popup {
     title.classList.add("popup-title");
     container.appendChild(title);
 
-    const table = document.createElement("table");
-    table.classList.add("popup-table");
-    const tableBody = document.createElement("tbody");
-    table.appendChild(tableBody);
-
-    const historicalRegionRow = document.createElement("tr");
-    const historicalRegionName = document.createElement("td");
-    historicalRegionName.innerText = "Regiune Istorica";
-    historicalRegionRow.appendChild(historicalRegionName);
-    const historicalRegion = document.createElement("td");
-    historicalRegion.innerText = "Regiune";
-    historicalRegionRow.appendChild(historicalRegion);
-    tableBody.appendChild(historicalRegionRow);
-
-    const populationRow = document.createElement("tr");
-    const populationName = document.createElement("td");
-    populationName.innerText = "Populatie";
-    populationRow.appendChild(populationName);
-    const population = document.createElement("td");
-    population.innerText = "0";
-    populationRow.appendChild(population);
-    tableBody.appendChild(populationRow);
-
-
+    const { table, dataCells } = createTable(["Regiune Istorica", "Populatie"]);
+    table.classList.add("popup-table")
     container.appendChild(table);
 
     /** @private
@@ -46,7 +24,7 @@ class Popup {
     /** @private
      * @type {HTMLTableCellElement}
      */
-    this.populationElem = population;
+    this.populationElem = dataCells[1];
 
     this.setVisible(false);
     this.setPos(0, 0);
@@ -122,6 +100,7 @@ for (const area of areas) {
   });
 }
 
+// Utility functions
 /**
  * @param {SVGPathElement} area
  */
@@ -147,6 +126,35 @@ function getAreaData(elem) {
   if (id in AREAS) {
     return AREAS[id];
   }
+}
+
+/**
+ * @param {string[]} rowNames 
+ */
+function createTable(rowNames) {
+  const table = document.createElement("table");
+  const body = document.createElement("tbody");
+  table.appendChild(body);
+
+  /** @type {HTMLTableCellElement[]} */
+  const dataCells = [];
+
+  for (const name of rowNames) {
+    const row = document.createElement("tr");
+
+    const nameCell = document.createElement("td");
+    nameCell.innerText = name;
+    row.appendChild(nameCell);
+
+    const dataCell = document.createElement("td");
+    dataCell.innerText = "...";
+    row.appendChild(dataCell);
+    dataCells.push(dataCell);
+
+    body.appendChild(row);
+  }
+
+  return { table, dataCells };
 }
 
 /**
