@@ -6,5 +6,6 @@ type Ethnicity = {
 type Area = {
   name: string;
   totalPopulation: number;
+  historicalRegion: string;
   ethnicities: Ethnicity[];
 };

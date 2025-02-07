@@ -24,6 +24,10 @@ class Popup {
     /** @private
      * @type {HTMLTableCellElement}
      */
+    this.regionElem = dataCells[0];
+    /** @private
+     * @type {HTMLTableCellElement}
+     */
     this.populationElem = dataCells[1];
 
     this.setVisible(false);
@@ -48,10 +52,9 @@ class Popup {
    * @param {Area} data
    */
   setData(data) {
-    // Set title
     this.titleElem.innerText = data.name;
-    // Set population
     this.populationElem.innerText = data.totalPopulation;
+    this.regionElem.innerText = data.historicalRegion;
   }
 
   /**
