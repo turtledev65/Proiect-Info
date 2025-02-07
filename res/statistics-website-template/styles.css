@@ -13,9 +13,11 @@
 }
 
 body {
+  overflow: hidden;
   height: 100svh;
   display: flex;
   flex-direction: column;
+  padding: 1rem;
 }
 
 .title {
@@ -81,16 +83,6 @@ body {
   fill: var(--color-pink);
 }
 
-/* Statistics */
-.statistics-container {
-  flex: 1;
-}
-
-.statistics-title {
-  font-size: 1.5rem;
-  text-align: center;
-}
-
 /* Popup */
 .popup {
   position: absolute;
@@ -114,4 +106,51 @@ body {
 .popup-table td {
   border: 1px solid lightgray;
   padding: 0.7rem 1.2rem;
+}
+
+/* Statistics */
+.statistics-container {
+  flex: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.statistics-title {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.statistics-container > .pie-chart-container {
+  flex: 1;
+}
+
+/* Pie Chart */
+.pie-chart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.pie-chart-list {
+  font-size: 1.3rem;
+  list-style: none;
+}
+
+.pie-chart-list-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.pie-chart-list-item-color {
+  display: inline-block;
+  width: 1rem;
+  aspect-ratio: 1;
+  border-radius: 5px;
+}
+
+.pie-chart {
+  max-width: 24rem;
 }

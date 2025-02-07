@@ -10,3 +10,9 @@ type Area = {
   historicalRegion: string;
   ethnicities: Ethnicity[];
 };
+
+type ChartItem = {
+  label: string;
+  value: number;
+  color: string;
+}
