@@ -1,5 +1,6 @@
 type Ethnicity = {
   type: number;
+  name: string;
   total: number;
 };
 
