@@ -2,7 +2,7 @@
 
 namespace Statistics
 {
-Area::Area(const std::string &n) : m_Name(n)
+Area::Area(const std::string &name) : m_Name(name)
 {
   for (int i = 0; i < ETHNICITY_COUNT; i++) {
     m_Ethnicities[i].type = static_cast<EthnicityType>(i);
@@ -13,11 +13,12 @@ std::string Area::toJSON() const
 {
   std::stringstream stream;
 
-  stream << '"' << getId() << '"' << ':'; 
+  stream << '"' << getId() << '"' << ':';
   stream << '{';
 
   stream << "\"name\": " << '"' << m_Name << '"' << ','
          << "\"totalPopulation\": " << getTotalPopulation() << ','
+         << "\"historicalRegion\": " << '"' << getHistoricalRegion() << '"' << ','
          << "\"ethnicities\": ";
 
   stream << '[';
@@ -33,22 +34,26 @@ std::string Area::toJSON() const
   return stream.str();
 }
 
-Sex Area::getSexTotal() const
-{
-  return m_Ethnicities[0].sex;
-}
+Sex Area::getSexTotal() const { return m_Ethnicities[0].sex; }
 
-size_t Area::getTotalPopulation() const
-{
-  return getSexTotal().getTotal();
-}
+size_t Area::getTotalPopulation() const { return getSexTotal().getTotal(); }
 
 std::string Area::getId() const
 {
-  if (s_AreaMap.find(m_Name) == s_AreaMap.end())
+  if (s_AreaIDMap.find(m_Name) == s_AreaIDMap.end()) {
     return "";
+  }
 
-  return s_AreaMap.at(m_Name);
+  return s_AreaIDMap.at(m_Name);
+}
+
+std::string Area::getHistoricalRegion() const
+{
+  if (s_AreaRegionMap.find(m_Name) == s_AreaRegionMap.end()) {
+    return "";
+  }
+
+  return s_AreaRegionMap.at(m_Name);
 }
 
 } // namespace Statistics
