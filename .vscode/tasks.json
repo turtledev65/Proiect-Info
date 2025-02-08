@@ -7,7 +7,7 @@
             "command": "cmd",
             "args": [
                 "/c",
-                "${workspaceFolder}/scripts/windows/build.bat && cd ${workspaceFolder}/build/bin/Debug && ProiectInfo.exe"
+                "${workspaceFolder}/scripts/windows/build.bat && cd ${workspaceFolder}/build/bin/Debug && Proiect-Info.exe"
             ],
             "group": {
                 "kind": "build",
