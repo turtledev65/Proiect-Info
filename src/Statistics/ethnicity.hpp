@@ -34,7 +34,7 @@ enum class EthnicityType {
   INFORMATION_UNAVAILABLE,
   COUNT, // must be last
 };
-#define ETHNICITY_COUNT ((int)(Statistics::EthnicityType::COUNT))
+constexpr size_t ETHNICITY_COUNT = (size_t)Statistics::EthnicityType::COUNT;
 
 struct Ethnicity {
   Ethnicity() : sex(0, 0), type(EthnicityType::ROMANIAN) {}
