@@ -1,0 +1,55 @@
+name: Build and Release CMake Project
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up CMake
+        uses: actions/setup-cmake@v2
+
+      - name: Run Windows build script
+        run: scripts/windows/build.bat Release
+
+      - name: Zip the executable for Windows
+        run: |
+          Compress-Archive -Path ./build/bin/Release -DestinationPath ./build_windows_release.zip
+
+      - name: Upload Windows artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-build
+          path: ./build_windows_release.zip
+
+  create-release:
+    needs: build-windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create GitHub release
+        id: create_release
+        run: |
+          RELEASE_TAG="v$(date +'%Y%m%d%H%M%S')"
+          RESPONSE=$(curl -XPOST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d "{\"tag_name\":\"$RELEASE_TAG\", \"name\":\"Release $RELEASE_TAG\"}" \
+            https://api.github.com/repos/${{ github.repository }}/releases)
+          echo "Release created with tag $RELEASE_TAG"
+
+      - name: Upload Windows zip to release
+        uses: ncipollo/release-action@v1
+        with:
+          files: ./build_windows_release.zip
+          tag: ${{ steps.create_release.outputs.tag_name }}
