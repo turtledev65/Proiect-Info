@@ -251,7 +251,6 @@ const statisticsTitle = querySelectorOrThrow(".statistics-title");
 const popup = new Popup();
 
 const ETHNICITIES_COLORS = ["#d30935", "#fc4111", "#17b1f3", "#68cb25", "#f8e930", "#f8b330", "#0ea145", "#0c90a7", "#00d3bd", "#fb8c1a", "#037aff", "#0b2fdd", "#5b00af", "#a60193", "#fe4ad3", "#f9b6e9", "#eae9e5", "#6f7c9a", "#031133", "#770124", "#874501", "#fcab6b", "#1c0fbe", "#fcd281",];
-console.log(AREAS.RO.ethnicities);
 const pieChart = new PieChart(convertEthnicitiesToChartValues(AREAS.RO.ethnicities));
 statisticsContainer.appendChild(pieChart.getElement());
 
