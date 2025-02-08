@@ -14,10 +14,10 @@
                 "isDefault": true
             },
             "problemMatcher": [],
-            "detail": "Run the build script and run the executable"
+            "detail": "Run the build script in Debug and run the executable"
         },
         {
-            "label": "Build Project",
+            "label": "Build Project in Debug",
             "type": "shell",
             "command": "cmd",
             "args": [
@@ -28,7 +28,21 @@
                 "kind": "build",
             },
             "problemMatcher": [],
-            "detail": "Run the build script"
+            "detail": "Run the build script in Debug"
+        },
+        {
+            "label": "Build Project in Release",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "${workspaceFolder}/scripts/windows/build.bat Release"
+            ],
+            "group": {
+                "kind": "build",
+            },
+            "problemMatcher": [],
+            "detail": "Run the build script in Release"
         },
         {
             "label": "Clean Project",
