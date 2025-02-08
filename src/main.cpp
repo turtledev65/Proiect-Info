@@ -23,7 +23,6 @@ int main()
   generator.define("AREAS", Html::ConvertType::JSON,
                    [areas]() { return convertAreasToJson(areas); });
   generator.parseTemplateToFile("./index.html");
-  Utils::systemOpenHTMLDoc("./index.html");
 }
 
 // Function Implementations
