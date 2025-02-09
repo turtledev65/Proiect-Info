@@ -23,4 +23,23 @@ std::string getFileContents(const fs::path &path)
 
   return out.str();
 }
+
+std::vector<fs::path>
+getDirectoryFiles(const fs::path                &directory,
+                  const std::vector<std::string> extensions)
+{
+  std::vector<fs::path> files{};
+
+  for (const auto &file : fs::directory_iterator(directory)) {
+    if (fs::is_regular_file(file)) {
+      if (extensions.empty() ||
+          std::find(extensions.begin(), extensions.end(),
+                    file.path().extension().string()) != extensions.end()) {
+        files.push_back(file.path());
+      }
+    }
+  }
+
+  return files;
+}
 } // namespace Utils
