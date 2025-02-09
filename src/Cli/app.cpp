@@ -17,6 +17,10 @@ void Command::Exec(Strings cmdLine)
 
 void App::Start()
 {
+  if (m_StartHandler) {
+    m_StartHandler();
+  }
+
   m_Running = true;
   while (m_Running) {
     std::cout << m_Prompt;
@@ -26,7 +30,14 @@ void App::Start()
   }
 }
 
-void App::Stop() { m_Running = false; }
+void App::Stop()
+{
+  if (m_StopHandler) {
+    m_StopHandler();
+  }
+  
+  m_Running = false;
+}
 
 void App::AddCommand(const std::string &name, std::function<void(Strings)> func,
                      const std::string &desc)
@@ -67,6 +78,8 @@ void App::handleCmdLine(Strings cmdLine)
   auto it = m_Commands.find(cmdLine[0]);
   if (it != m_Commands.end()) {
     it->second.Exec(cmdLine);
+  } else if (m_WrongCmdHandler) {
+    m_WrongCmdHandler(cmdLine[0]);
   } else {
     std::cout << "wrong command: " << cmdLine[0] << '\n';
   }
