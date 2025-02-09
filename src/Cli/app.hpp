@@ -39,6 +39,9 @@ public:
   // Getters
   const std::string &GetName() { return m_Name; }
 
+  // Setters
+  void SetPrompt(const std::string &val) { m_Prompt = std::move(val); }
+
 private:
   const std::string m_Name    = "";
   std::string       m_Prompt  = "> ";

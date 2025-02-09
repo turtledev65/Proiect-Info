@@ -41,7 +41,7 @@ int main()
                  "Listeaza toate fisierele CSV gasite, care contin statistici");
   app.AddCommand(
       "sel",
-      [&zone](const vector<string> &args) {
+      [&zone, &app](const vector<string> &args) {
         if (args.empty()) {
           cout << "ID-ul trebuie specificat";
           return;
@@ -49,12 +49,21 @@ int main()
 
         size_t id;
         try {
-          id   = stoi(args[0]);
-          zone = selecteazaFisier(id);
+          id = stoi(args[0]);
+
+          vector<fs::path> fisiere = gasesteFisiereleCSV();
+          if (id >= fisiere.size()) {
+            cout << id << " este un ID invalid.\n";
+            return;
+          }
+          const fs::path &fisier = fisiere[id];
+
+          zone = citesteFisierCSV(fisier);
           if (zone.empty()) {
             cout << "Nu s-a putu citi fisierul\n";
           } else {
             cout << "Fisierul a fost citit cu succes.\n";
+            app.SetPrompt(fisier.filename().string() + " > ");
           }
         } catch (const std::invalid_argument &) {
           cout << "ID invalid: " << id << '\n';
