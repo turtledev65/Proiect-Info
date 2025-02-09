@@ -29,7 +29,7 @@ int main()
 
   app.StartHandler([&app]() {
     cout << app.GetName() << '\n'
-         << "Foloseste `ajutor` pentru a vedea toate comenzile\n";
+         << "Foloseste ajutor pentru a vedea toate comenzile\n";
   });
   app.WrongCmdHandler(
       [](const string &cmd) { cout << "Comanda gresita: " << cmd << '\n'; });
@@ -37,9 +37,8 @@ int main()
   app.AddHelpCommand("ajutor", "Vezi o lista cu toate comenzile si ce fac");
   app.AddExitCommand("iesi", "Inchide programul");
 
-  app.AddCommand(
-      "ls", [](const vector<string> &args) { listeazaFisiere(); },
-      "Listeaza toate fisierele CSV gasite, care contin statistici");
+  app.AddCommand("ls", listeazaFisiere,
+                 "Listeaza toate fisierele CSV gasite, care contin statistici");
   app.AddCommand(
       "sel",
       [&zone](const vector<string> &args) {
@@ -68,7 +67,7 @@ int main()
       "Selecteaza un fisier cu statistici folosind ID-ul acestuia");
   app.AddCommand(
       "gen",
-      [&zone](const vector<string> &args) {
+      [&zone]() {
         if (zone.empty()) {
           cout << "Niciun fisier selectat\n";
           return;

@@ -5,32 +5,14 @@
 #include <string>
 #include <functional>
 
+#include "command.hpp"
+
 namespace Cli
 {
 using Strings = const std::vector<std::string> &;
 
-class Command
-{
-public:
-  Command(const std::string &name, std::function<void(Strings)> func,
-          const std::string &desc)
-      : m_Name(std::move(name)), m_Func(std::move(func)),
-        m_Desc(std::move(desc))
-  {
-  }
-  void Exec(Strings cmdLine);
-
-  const std::string &getDesc() const { return m_Desc; };
-
-private:
-  const std::string            m_Name;
-  const std::string            m_Desc;
-  std::function<void(Strings)> m_Func;
-};
-
 class App
 {
-
 public:
   App(const std::string &name) : m_Name(std::move(name)) {}
 
@@ -40,6 +22,9 @@ public:
   // Commands
   void AddCommand(const std::string &name, std::function<void(Strings)> func,
                   const std::string &desc = "");
+  void AddCommand(const std::string &name, std::function<void()> func,
+                  const std::string &desc = "");
+
   void AddHelpCommand(const std::string &name, const std::string &desc = "");
   void AddExitCommand(const std::string &name, const std::string &desc = "");
 
@@ -59,7 +44,7 @@ private:
   std::string       m_Prompt  = "> ";
   bool              m_Running = false;
 
-  std::unordered_map<std::string, Command> m_Commands;
+  std::unordered_map<std::string, std::shared_ptr<BaseCommand>> m_Commands;
 
   // Handlers
   std::function<void(const std::string &)> m_WrongCmdHandler;

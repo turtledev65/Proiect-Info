@@ -2,19 +2,6 @@
 
 namespace Cli
 {
-void Command::Exec(Strings cmdLine)
-{
-  if (cmdLine.empty()) {
-    return;
-  }
-  if (cmdLine[0] != m_Name) {
-    return;
-  }
-
-  std::vector<std::string> args(cmdLine.begin() + 1, cmdLine.end());
-  m_Func(args);
-}
-
 void App::Start()
 {
   if (m_StartHandler) {
@@ -39,6 +26,16 @@ void App::Stop()
   m_Running = false;
 }
 
+void App::AddCommand(const std::string &name, std::function<void()> func,
+                     const std::string &desc)
+{
+  if (m_Commands.find(name) != m_Commands.end()) {
+    return;
+  }
+
+  m_Commands.insert({name, std::make_shared<Command>(name, desc, func)});
+}
+
 void App::AddCommand(const std::string &name, std::function<void(Strings)> func,
                      const std::string &desc)
 {
@@ -46,19 +43,19 @@ void App::AddCommand(const std::string &name, std::function<void(Strings)> func,
     return;
   }
 
-  Command cmd(name, func, desc);
-  m_Commands.insert({name, cmd});
+  m_Commands.insert(
+      {name, std::make_shared<CommandWithArgs>(name, desc, func)});
 }
 
 void App::AddHelpCommand(const std::string &name, const std::string &desc)
 {
   AddCommand(
       name,
-      [&](Strings args) {
+      [&]() {
         std::cout << m_Name << '\n';
         for (const auto &i : m_Commands) {
           std::cout << std::left << std::setw(20) << i.first
-                    << i.second.getDesc() << '\n';
+                    << i.second->GetDesc() << '\n';
         }
       },
       desc);
@@ -66,7 +63,7 @@ void App::AddHelpCommand(const std::string &name, const std::string &desc)
 
 void App::AddExitCommand(const std::string &name, const std::string &desc)
 {
-  AddCommand(name, [&](Strings args) { Stop(); }, desc);
+  AddCommand(name, [&]() { Stop(); }, desc);
 }
 
 void App::handleCmdLine(Strings cmdLine)
@@ -77,7 +74,7 @@ void App::handleCmdLine(Strings cmdLine)
 
   auto it = m_Commands.find(cmdLine[0]);
   if (it != m_Commands.end()) {
-    it->second.Exec(cmdLine);
+    it->second->Exec(cmdLine);
   } else if (m_WrongCmdHandler) {
     m_WrongCmdHandler(cmdLine[0]);
   } else {
