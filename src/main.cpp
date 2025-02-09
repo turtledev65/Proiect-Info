@@ -3,12 +3,14 @@
 #include "Statistics/area.hpp"
 #include "Core/utils.hpp"
 #include "Cli/app.hpp"
+#include "Chart/chart.hpp"
 
 #include <fstream>
 
 using namespace std;
 using namespace Statistics;
 using namespace Utils;
+using namespace Chart;
 namespace fs = std::filesystem;
 
 // Subprograme
@@ -73,15 +75,55 @@ int main()
         }
       },
       "Selecteaza un fisier cu statistici folosind ID-ul acestuia");
-  app.AddCommand("inapoi", [&zone, &app] {
-    if (zone.empty()) {
-      cout << "Niciun fisier selectat\n";
-    }
+  app.AddCommand(
+      "inapoi",
+      [&zone, &app] {
+        if (zone.empty()) {
+          cout << "Niciun fisier selectat\n";
+          return;
+        }
 
-    zone.clear();
-    app.SetPrompt("> ");
-  }, "Du-te inapoi daca ai selectat un fisier");
+        zone.clear();
+        app.SetPrompt("> ");
+      },
+      "Du-te inapoi daca ai selectat un fisier");
 
+  app.AddCommand(
+      "stat-etnie",
+      [&zone](const vector<string> &args) {
+        if (zone.empty()) {
+          std::cout << "Niciun fisier selectat\n";
+          return;
+        }
+
+        Ethnicity const *ethnicities = nullptr;
+        if (args.empty()) {
+          ethnicities = zone[0].m_Ethnicities;
+        } else {
+          const std::string &name = args[0];
+          for (const Area &zona : zone) {
+            if (name == zona.getName()) {
+              ethnicities = zona.m_Ethnicities;
+              break;
+            }
+          }
+          if (ethnicities == nullptr) {
+            std::cout << name << " nu a fost gasit\n";
+            return;
+          }
+        }
+
+        std::vector<ChartItem> items;
+        items.reserve(ETHNICITY_COUNT);
+        for (size_t i = 1; i < ETHNICITY_COUNT; i++) {
+          items.emplace_back(ethnicities[i].sex.getTotal(),
+                             ethnicities[i].getName());
+        }
+
+        BarChart chart(items);
+        chart.Print();
+      },
+      "Afiseaza statisticile pe etnie");
   app.AddCommand(
       "gen",
       [&zone]() {

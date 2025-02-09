@@ -20,11 +20,12 @@ public:
   Sex         getSexTotal() const;
   size_t      getTotalPopulation() const;
 
-  std::string getId() const;
-  std::string getHistoricalRegion() const;
+  std::string        getId() const;
+  std::string        getHistoricalRegion() const;
+  const std::string &getName() const { return m_Name; }
 
 private:
-  std::string    m_Name = "";
+  std::string m_Name = "";
 
   static const inline std::unordered_map<std::string, std::string> s_AreaIDMap =
       {{"ROMANIA", "RO"},
