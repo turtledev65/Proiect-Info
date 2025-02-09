@@ -35,7 +35,7 @@ void App::Stop()
   if (m_StopHandler) {
     m_StopHandler();
   }
-  
+
   m_Running = false;
 }
 
@@ -87,38 +87,70 @@ void App::handleCmdLine(Strings cmdLine)
 
 std::vector<std::string> App::getCmdLine(const std::string &line)
 {
-  std::vector<std::string> out{};
-  std::string              currToken = "";
+  enum class State {
+    NORMAL,
+    WHITESPACE,
+    QUOTE_OPEN,
+  };
+  State state = State::NORMAL;
 
-  bool quoteOpen    = false;
-  bool inWhitespace = false;
+  std::vector<std::string> out{};
+  std::string              tokenBuffer = "";
+  char                     quote       = '"';
 
   for (char ch : line) {
-    switch (ch) {
-    case ' ':
-      if (!inWhitespace && !quoteOpen) {
-        inWhitespace = true;
-        out.push_back(currToken);
-        currToken.clear();
+    switch (state) {
+    case State::NORMAL:
+      switch (ch) {
+      case '"':
+      case '\'':
+        quote = ch;
+        state = State::QUOTE_OPEN;
+        break;
+      case ' ':
+        state = State::WHITESPACE;
+        if (!tokenBuffer.empty()) {
+          out.push_back(tokenBuffer);
+          tokenBuffer.clear();
+        }
+        break;
+      default:
+        tokenBuffer += ch;
+        break;
       }
       break;
-    case '"':
-      if (quoteOpen) {
-        quoteOpen = false;
-        out.push_back(currToken);
-        currToken.clear();
-      } else {
-        quoteOpen = true;
+    case State::WHITESPACE:
+      switch (ch) {
+      case '"':
+      case '\'':
+        quote = ch;
+        state = State::QUOTE_OPEN;
+        break;
+      case ' ':
+        break;
+      default:
+        tokenBuffer += ch;
+        state = State::NORMAL;
+        break;
       }
       break;
-    default:
-      inWhitespace = false;
-      currToken += ch;
+    case State::QUOTE_OPEN:
+      if (ch == quote) {
+        state = State::NORMAL;
+        if (!tokenBuffer.empty()) {
+          out.push_back(tokenBuffer);
+          tokenBuffer.clear();
+        }
+        break;
+      }
+      tokenBuffer += ch;
       break;
     }
   }
-  if (!currToken.empty())
-    out.push_back(currToken);
+  if (!tokenBuffer.empty()) {
+    out.push_back(tokenBuffer);
+    tokenBuffer.clear();
+  }
 
   return out;
 }
