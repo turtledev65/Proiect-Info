@@ -15,7 +15,6 @@ namespace fs = std::filesystem;
 std::vector<fs::path> gasesteFisiereleCSV();
 vector<Area>          citesteFisierCSV(const fs::path &fisier);
 void                  listeazaFisiere();
-vector<Area>          selecteazaFisier(size_t id);
 void                  genereazaDocumentHTML(const std::vector<Area> &zone,
                                             const fs::path          &sablon,
                                             const fs::path          &fisierGenerat);
@@ -74,6 +73,15 @@ int main()
         }
       },
       "Selecteaza un fisier cu statistici folosind ID-ul acestuia");
+  app.AddCommand("inapoi", [&zone, &app] {
+    if (zone.empty()) {
+      cout << "Niciun fisier selectat\n";
+    }
+
+    zone.clear();
+    app.SetPrompt("> ");
+  }, "Du-te inapoi daca ai selectat un fisier");
+
   app.AddCommand(
       "gen",
       [&zone]() {
@@ -110,17 +118,6 @@ void listeazaFisiere()
   for (size_t i = 0; i < files.size(); i++) {
     cout << '[' << i << ']' << ' ' << files[i].filename().string() << '\n';
   }
-}
-
-vector<Area> selecteazaFisier(size_t id)
-{
-  vector<fs::path> files = gasesteFisiereleCSV();
-  if (id >= files.size()) {
-    cout << id << " este un ID invalid.\n";
-    return {};
-  }
-
-  return citesteFisierCSV(files[id]);
 }
 
 void genereazaDocumentHTML(const std::vector<Area> &zone,
