@@ -2,7 +2,7 @@
 
 namespace Statistics
 {
-Area::Area(const std::string &name) : m_Name(name)
+Area::Area(const std::string &name) : m_Name(std::move(name))
 {
   for (int i = 0; i < ETHNICITY_COUNT; i++) {
     m_Ethnicities[i].type = static_cast<EthnicityType>(i);
@@ -18,8 +18,8 @@ std::string Area::toJSON() const
 
   stream << "\"name\": " << '"' << m_Name << '"' << ','
          << "\"totalPopulation\": " << getTotalPopulation() << ','
-         << "\"historicalRegion\": " << '"' << getHistoricalRegion() << '"' << ','
-         << "\"ethnicities\": ";
+         << "\"historicalRegion\": " << '"' << getHistoricalRegion() << '"'
+         << ',' << "\"ethnicities\": ";
 
   stream << '[';
   for (size_t i = 0; i < ETHNICITY_COUNT; i++) {
