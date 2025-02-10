@@ -33,7 +33,7 @@ void App::AddCommand(const std::string &name, std::function<void()> func,
     return;
   }
 
-  m_Commands.insert({name, std::make_shared<Command>(name, desc, func)});
+  m_Commands.emplace(name, std::make_shared<Command>(name, desc, func));
 }
 
 void App::AddCommand(const std::string &name, std::function<void(Strings)> func,
@@ -43,8 +43,7 @@ void App::AddCommand(const std::string &name, std::function<void(Strings)> func,
     return;
   }
 
-  m_Commands.insert(
-      {name, std::make_shared<CommandWithArgs>(name, desc, func)});
+  m_Commands.emplace(name, std::make_shared<CommandWithArgs>(name, desc, func));
 }
 
 void App::AddHelpCommand(const std::string &name, const std::string &desc)
