@@ -9,6 +9,16 @@
 
 namespace Statistics
 {
+struct AreaProperties {
+  explicit AreaProperties(const std::string &id, const std::string &region)
+      : id(std::move(id)), historicalRegion(std::move(region))
+  {
+  }
+
+  const std::string id;
+  const std::string historicalRegion;
+};
+
 class Area
 {
 public:
@@ -27,83 +37,50 @@ public:
 private:
   std::string m_Name = "";
 
-  static const inline std::unordered_map<std::string, std::string> s_AreaIDMap =
-      {{"ROMANIA", "RO"},
-       {"ALBA", "AB"},
-       {"BISTRITA-NASAUD", "BN"},
-       {"BRASOV", "BV"},
-       {"CLUJ", "CJ"},
-       {"COVASNA", "CV"},
-       {"HUNEDOARA", "HD"},
-       {"HARGHITA", "HR"},
-       {"MURES", "MS"},
-       {"SIBIU", "SB"},
-       {"SALAJ", "SJ"},
-       {"ARGES", "AG"},
-       {"BRAILA", "BR"},
-       {"MUNICIPIUL BUCURESTI", "B"},
-       {"BUZAU", "BZ"},
-       {"CALARASI", "CL"},
-       {"DAMBOVITA", "DB"},
-       {"GIURGIU", "GR"},
-       {"ILFOV", "IF"},
-       {"IALOMITA", "IL"},
-       {"PRAHOVA", "PH"},
-       {"TELEORMAN", "TR"},
-       {"ARAD", "AR"},
-       {"BIHOR", "BH"},
-       {"BACAU", "BC"},
-       {"BOTOSANI", "BT"},
-       {"GALATI", "GL"},
-       {"IASI", "IS"},
-       {"NEAMT", "NT"},
-       {"VRANCEA", "VN"},
-       {"VASLUI", "VS"},
-       {"CARAS-SEVERIN", "CS"},
-       {"TIMIS", "TM"},
-       {"CONSTANTA", "CT"},
-       {"TULCEA", "TL"},
-       {"DOLJ", "DJ"},
-       {"GORJ", "GJ"},
-       {"MEHEDINTI", "MH"},
-       {"OLT", "OT"},
-       {"VALCEA", "VL"},
-       {"MARAMURES", "MM"},
-       {"SATU MARE", "SM"},
-       {"SUCEAVA", "SV"}};
-  static const inline std::unordered_map<std::string, std::string>
-      s_AreaRegionMap = {
-          {"ALBA", "Transilvania"},     {"BISTRITA-NASAUD", "Transilvania"},
-          {"BRASOV", "Transilvania"},   {"CLUJ", "Transilvania"},
-          {"COVASNA", "Transilvania"},  {"HUNEDOARA", "Transilvania"},
-          {"HARGHITA", "Transilvania"}, {"MURES", "Transilvania"},
-          {"SIBIU", "Transilvania"},    {"SALAJ", "Transilvania"},
-
-          {"ARGES", "Muntenia"},        {"BRAILA", "Muntenia"},
-          {"BUCURESTI", "Muntenia"},    {"BUZAU", "Muntenia"},
-          {"CALARASI", "Muntenia"},     {"DAMBOVITA", "Muntenia"},
-          {"GIURGIU", "Muntenia"},      {"ILFOV", "Muntenia"},
-          {"IALOMITA", "Muntenia"},     {"PRAHOVA", "Muntenia"},
-          {"TELEORMAN", "Muntenia"},
-
-          {"ARAD", "Crisana"},          {"BIHOR", "Crisana"},
-
-          {"BACAU", "Moldova"},         {"BOTOSANI", "Moldova"},
-          {"GALATI", "Moldova"},        {"IASI", "Moldova"},
-          {"NEAMT", "Moldova"},         {"VRANCEA", "Moldova"},
-          {"VASLUI", "Moldova"},
-
-          {"CARAS-SEVERIN", "Banat"},   {"TIMIS", "Banat"},
-
-          {"CONSTANTA", "Constanta"},   {"TULCEA", "Constanta"},
-
-          {"DOLJ", "Oltenia"},          {"GORJ", "Oltenia"},
-          {"MEHEDINTI", "Oltenia"},     {"OLT", "Oltenia"},
-          {"VALCEA", "Oltenia"},
-
-          {"MARAMURES", "Maramures"},   {"SATU MARE", "Maramures"},
-
-          {"SUCEAVA", "Bucovina"}};
+  static const inline std::unordered_map<std::string, AreaProperties>
+      s_AreaMap = {{"ROMANIA", AreaProperties("RO", "")},
+                   {"ALBA", AreaProperties("AB", "Transilvania")},
+                   {"BISTRITA-NASAUD", AreaProperties("BN", "Transilvania")},
+                   {"BRASOV", AreaProperties("BV", "Transilvania")},
+                   {"CLUJ", AreaProperties("CJ", "Transilvania")},
+                   {"COVASNA", AreaProperties("CV", "Transilvania")},
+                   {"HUNEDOARA", AreaProperties("HD", "Transilvania")},
+                   {"HARGHITA", AreaProperties("HR", "Transilvania")},
+                   {"MURES", AreaProperties("MS", "Transilvania")},
+                   {"SIBIU", AreaProperties("SB", "Transilvania")},
+                   {"SALAJ", AreaProperties("SJ", "Transilvania")},
+                   {"ARGES", AreaProperties("AG", "Muntenia")},
+                   {"BRAILA", AreaProperties("BR", "Muntenia")},
+                   {"MUNICIPIUL BUCURESTI", AreaProperties("B", "Muntenia")},
+                   {"BUZAU", AreaProperties("BZ", "Muntenia")},
+                   {"CALARASI", AreaProperties("CL", "Muntenia")},
+                   {"DAMBOVITA", AreaProperties("DB", "Muntenia")},
+                   {"GIURGIU", AreaProperties("GR", "Muntenia")},
+                   {"ILFOV", AreaProperties("IF", "Muntenia")},
+                   {"IALOMITA", AreaProperties("IL", "Muntenia")},
+                   {"PRAHOVA", AreaProperties("PH", "Muntenia")},
+                   {"TELEORMAN", AreaProperties("TR", "Muntenia")},
+                   {"ARAD", AreaProperties("AR", "Crisana")},
+                   {"BIHOR", AreaProperties("BH", "Crisana")},
+                   {"BACAU", AreaProperties("BC", "Moldova")},
+                   {"BOTOSANI", AreaProperties("BT", "Moldova")},
+                   {"GALATI", AreaProperties("GL", "Moldova")},
+                   {"IASI", AreaProperties("IS", "Moldova")},
+                   {"NEAMT", AreaProperties("NT", "Moldova")},
+                   {"VRANCEA", AreaProperties("VN", "Moldova")},
+                   {"VASLUI", AreaProperties("VS", "Moldova")},
+                   {"CARAS-SEVERIN", AreaProperties("CS", "Banat")},
+                   {"TIMIS", AreaProperties("TM", "Banat")},
+                   {"CONSTANTA", AreaProperties("CT", "Constanta")},
+                   {"TULCEA", AreaProperties("TL", "Constanta")},
+                   {"DOLJ", AreaProperties("DJ", "Oltenia")},
+                   {"GORJ", AreaProperties("GJ", "Oltenia")},
+                   {"MEHEDINTI", AreaProperties("MH", "Oltenia")},
+                   {"OLT", AreaProperties("OT", "Oltenia")},
+                   {"VALCEA", AreaProperties("VL", "Oltenia")},
+                   {"MARAMURES", AreaProperties("MM", "Maramures")},
+                   {"SATU MARE", AreaProperties("SM", "Maramures")},
+                   {"SUCEAVA", AreaProperties("SV", "Bucovina")}};
 };
 
 } // namespace Statistics

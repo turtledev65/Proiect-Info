@@ -40,20 +40,20 @@ size_t Area::getTotalPopulation() const { return getSexTotal().getTotal(); }
 
 std::string Area::getId() const
 {
-  if (s_AreaIDMap.find(m_Name) == s_AreaIDMap.end()) {
+  if (s_AreaMap.find(m_Name) == s_AreaMap.end()) {
     return "";
   }
 
-  return s_AreaIDMap.at(m_Name);
+  return s_AreaMap.at(m_Name).id;
 }
 
 std::string Area::getHistoricalRegion() const
 {
-  if (s_AreaRegionMap.find(m_Name) == s_AreaRegionMap.end()) {
+  if (s_AreaMap.find(m_Name) == s_AreaMap.end()) {
     return "";
   }
 
-  return s_AreaRegionMap.at(m_Name);
+  return s_AreaMap.at(m_Name).historicalRegion;
 }
 
 } // namespace Statistics
