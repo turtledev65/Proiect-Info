@@ -44,7 +44,7 @@ int main()
       "sel",
       [&zone, &app](const vector<string> &args) {
         if (args.empty()) {
-          cout << "ID-ul trebuie specificat";
+          cout << "ID-ul trebuie specificat\n";
           return;
         }
 
