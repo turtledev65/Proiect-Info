@@ -3,9 +3,13 @@
 #include <string>
 #include <sstream>
 #include <unordered_map>
+#include <filesystem>
+#include <vector>
+#include <fstream>
 
 #include "Statistics/sex.hpp"
 #include "Statistics/ethnicity.hpp"
+#include "Csv/reader.hpp"
 
 namespace Statistics
 {
@@ -82,5 +86,7 @@ private:
                    {"SATU MARE", AreaProperties("SM", "Maramures")},
                    {"SUCEAVA", AreaProperties("SV", "Bucovina")}};
 };
+
+std::vector<Area> parseCSV(const std::filesystem::path &path);
 
 } // namespace Statistics
