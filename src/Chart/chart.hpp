@@ -31,6 +31,7 @@ public:
 
 protected:
   const std::vector<ChartItem> &GetItems() { return m_Items; };
+  size_t                        getTotal();
 
 private:
   const std::vector<ChartItem> m_Items;
@@ -43,11 +44,9 @@ public:
   void Print() override;
 
 private:
-  static constexpr size_t          BAR_LENGTH     = 20;
-  static constexpr char BAR_EMPTY_CHAR = '-';
-  static constexpr char BAR_FULL_CHAR  = '+';
-
-  size_t getTotal();
+  static constexpr size_t BAR_LENGTH     = 20;
+  static constexpr char   BAR_EMPTY_CHAR = '-';
+  static constexpr char   BAR_FULL_CHAR  = '+';
 };
 
 class PieChart : BaseChart
@@ -55,6 +54,12 @@ class PieChart : BaseChart
 public:
   explicit PieChart(const std::vector<ChartItem> &items) : BaseChart(items) {}
   void Print() override;
+
+private:
+  static constexpr size_t WIDTH       = 30;
+  static constexpr size_t HEIGHT      = 12;
+  static constexpr char   FIRST_CHAR  = '*';
+  static constexpr char   SECOND_CHAR = '%';
 };
 
 } // namespace Chart
