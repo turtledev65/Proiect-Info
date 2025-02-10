@@ -124,6 +124,34 @@ int main()
         chart.Print();
       },
       "Afiseaza statisticile pe etnie");
+  app.AddCommand("stat-sex", [&zone](const vector<string> &args) {
+    if (zone.empty()) {
+      std::cout << "Niciun fisier selectat\n";
+      return;
+    }
+
+    unique_ptr<Sex> s = nullptr;
+    if (args.empty()) {
+      s = make_unique<Sex>(zone[0].getSexTotal());
+    } else {
+      const std::string &name = args[0];
+      for (const Area &zona : zone) {
+        if (name == zona.getName()) {
+          s = make_unique<Sex>(zona.getSexTotal());
+          break;
+        }
+      }
+      if (!s) {
+        cout << name << " nu a fost gasit\n";
+        return;
+      }
+    }
+
+    std::vector<ChartItem> items{ChartItem(s->male, "Barbati"),
+                                 ChartItem(s->female, "Femei")};
+    PieChart               chart(items);
+    chart.Print();
+  });
   app.AddCommand(
       "gen",
       [&zone]() {
