@@ -82,6 +82,7 @@ void Generator::parseTemplateToFile(const fs::path &path)
 {
   std::ofstream out(path);
   out << parseTemplate();
+  out.close();
 }
 
 fs::path Generator::getIncludePath(const std::string &line, size_t startPos)

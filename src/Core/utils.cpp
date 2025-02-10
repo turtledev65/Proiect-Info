@@ -20,6 +20,7 @@ std::string getFileContents(const fs::path &path)
   while (getline(file, line)) {
     out << line << '\n';
   }
+  file.close();
 
   return out.str();
 }
