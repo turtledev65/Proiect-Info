@@ -123,7 +123,7 @@ int main()
         BarChart chart(items);
         chart.Print();
       },
-      "Afiseaza statisticile pe etnie");
+      "Afiseaza statisticile pe etnie pentru fisierul selectat. Poti specifica un judet folosind LITERE_MARI");
   app.AddCommand("stat-sex", [&zone](const vector<string> &args) {
     if (zone.empty()) {
       std::cout << "Niciun fisier selectat\n";
@@ -151,7 +151,7 @@ int main()
                                  ChartItem(s->female, "Femei")};
     PieChart               chart(items);
     chart.Print();
-  });
+  }, "Afiseaza statisticile pe etnie pentru fisierul selectat. Poti specifica un judet folosind LITERE_MARI");
   app.AddCommand(
       "gen",
       [&zone]() {
