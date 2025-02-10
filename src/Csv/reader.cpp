@@ -15,7 +15,7 @@ Reader::Reader(std::istream &input) : m_Input(&input)
   m_Eof       = m_Input->eof();
 }
 
-Field Reader::nextField()
+Field Reader::NextField()
 {
   if (m_State == State::END_OF_CSV) {
     return Field(FieldType::CSV_END);
@@ -157,7 +157,7 @@ void iterator::next()
 {
   size_t numFields = 0;
   for (;;) {
-    Field field = m_Reader->nextField();
+    Field field = m_Reader->NextField();
     switch (field.type) {
     case FieldType::DATA:
       if (numFields < m_Row.size()) {

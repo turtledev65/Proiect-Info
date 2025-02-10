@@ -102,7 +102,7 @@ int main()
         } else {
           const std::string &name = args[0];
           for (const Area &zona : zone) {
-            if (name == zona.getName()) {
+            if (name == zona.GetName()) {
               ethnicities = zona.m_Ethnicities;
               break;
             }
@@ -116,8 +116,8 @@ int main()
         std::vector<ChartItem> items;
         items.reserve(ETHNICITY_COUNT);
         for (size_t i = 1; i < ETHNICITY_COUNT; i++) {
-          items.emplace_back(ethnicities[i].sex.getTotal(),
-                             ethnicities[i].getName());
+          items.emplace_back(ethnicities[i].sex.GetTotal(),
+                             ethnicities[i].GetName());
         }
 
         BarChart chart(items);
@@ -132,12 +132,12 @@ int main()
 
     unique_ptr<Sex> s = nullptr;
     if (args.empty()) {
-      s = make_unique<Sex>(zone[0].getSexTotal());
+      s = make_unique<Sex>(zone[0].GetSexTotal());
     } else {
       const std::string &name = args[0];
       for (const Area &zona : zone) {
-        if (name == zona.getName()) {
-          s = make_unique<Sex>(zona.getSexTotal());
+        if (name == zona.GetName()) {
+          s = make_unique<Sex>(zona.GetSexTotal());
           break;
         }
       }
@@ -202,7 +202,7 @@ void genereazaDocumentHTML(const std::vector<Area> &zone,
       out << "`{";
       for (size_t i = 0; i < zone.size(); i++) {
         const Area &zona = zone[i];
-        out << zona.toJSON();
+        out << zona.ToJSON();
         if (i < zone.size() - 1) {
           out << ',';
         }
@@ -228,7 +228,7 @@ vector<Area> citesteFisierCSV(const fs::path &fisier)
   }
 
   Csv::Reader reader =
-      Csv::Reader(file).delimiter(',').quote('"').newLine('\n');
+      Csv::Reader(file).SetDelimiter(',').SetQuote('"').SetNewLine('\n');
 
   // state of the reader
   enum class State {

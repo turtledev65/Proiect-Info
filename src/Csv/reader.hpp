@@ -28,24 +28,24 @@ public:
   Reader(std::istream &input);
 
   // Functions used for configuration
-  Reader &&delimiter(char value)
+  Reader &&SetDelimiter(char value)
   {
     m_Delimiter = value;
     return std::move(*this);
   }
-  Reader &&quote(char value)
+  Reader &&SetQuote(char value)
   {
     m_Quote = value;
     return std::move(*this);
   }
-  Reader &&newLine(char value)
+  Reader &&SetNewLine(char value)
   {
     m_NewLine = value;
     return std::move(*this);
   }
 
   // Functions used for parsing
-  Field nextField();
+  Field NextField();
 
   // Iterator implementation, which reads row by row
   class iterator

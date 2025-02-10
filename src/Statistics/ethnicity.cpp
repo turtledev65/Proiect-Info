@@ -4,18 +4,18 @@
 
 namespace Statistics
 {
-std::string Ethnicity::toJSON() const
+std::string Ethnicity::ToJSON() const
 {
   std::stringstream stream;
   stream << '{';
   stream << "\"type\": " << static_cast<size_t>(type) << ','
-         << "\"name\": " << '"' << getName() << '"' << ','
-         << "\"total\": " << sex.getTotal();
+         << "\"name\": " << '"' << GetName() << '"' << ','
+         << "\"total\": " << sex.GetTotal();
   stream << '}';
   return stream.str();
 }
 
-std::string Ethnicity::getName() const
+std::string Ethnicity::GetName() const
 {
   switch (type) {
   case EthnicityType::TOTAL:

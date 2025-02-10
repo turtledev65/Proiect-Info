@@ -9,21 +9,21 @@ Area::Area(const std::string &name) : m_Name(std::move(name))
   }
 }
 
-std::string Area::toJSON() const
+std::string Area::ToJSON() const
 {
   std::stringstream stream;
 
-  stream << '"' << getId() << '"' << ':';
+  stream << '"' << GetId() << '"' << ':';
   stream << '{';
 
   stream << "\"name\": " << '"' << m_Name << '"' << ','
-         << "\"totalPopulation\": " << getTotalPopulation() << ','
-         << "\"historicalRegion\": " << '"' << getHistoricalRegion() << '"'
+         << "\"totalPopulation\": " << GetTotalPopulation() << ','
+         << "\"historicalRegion\": " << '"' << GetHistoricalRegion() << '"'
          << ',' << "\"ethnicities\": ";
 
   stream << '[';
   for (size_t i = 0; i < ETHNICITY_COUNT; i++) {
-    stream << m_Ethnicities[i].toJSON();
+    stream << m_Ethnicities[i].ToJSON();
     if (i < ETHNICITY_COUNT - 1) {
       stream << ',';
     }
@@ -34,11 +34,11 @@ std::string Area::toJSON() const
   return stream.str();
 }
 
-Sex Area::getSexTotal() const { return m_Ethnicities[0].sex; }
+Sex Area::GetSexTotal() const { return m_Ethnicities[0].sex; }
 
-size_t Area::getTotalPopulation() const { return getSexTotal().getTotal(); }
+size_t Area::GetTotalPopulation() const { return GetSexTotal().GetTotal(); }
 
-std::string Area::getId() const
+std::string Area::GetId() const
 {
   if (s_AreaMap.find(m_Name) == s_AreaMap.end()) {
     return "";
@@ -47,7 +47,7 @@ std::string Area::getId() const
   return s_AreaMap.at(m_Name).id;
 }
 
-std::string Area::getHistoricalRegion() const
+std::string Area::GetHistoricalRegion() const
 {
   if (s_AreaMap.find(m_Name) == s_AreaMap.end()) {
     return "";

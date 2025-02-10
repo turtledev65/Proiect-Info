@@ -3,7 +3,7 @@
 namespace Chart
 {
 
-size_t BaseChart::getTotal()
+size_t BaseChart::GetTotal()
 {
   const std::vector<ChartItem> &items = GetItems();
   size_t                        out   = 0;
@@ -16,7 +16,7 @@ size_t BaseChart::getTotal()
 
 void BarChart::Print()
 {
-  size_t                        total = getTotal();
+  size_t                        total = GetTotal();
   const std::vector<ChartItem> &items = GetItems();
 
   for (const ChartItem &item : items) {
@@ -42,7 +42,7 @@ void PieChart::Print()
   if (items.size() != 2) {
     return;
   }
-  size_t total = getTotal();
+  size_t total = GetTotal();
 
   float firstPercentage =
       static_cast<float>(items[0].value) / static_cast<float>(total);

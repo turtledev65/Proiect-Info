@@ -31,7 +31,7 @@ public:
 
 protected:
   const std::vector<ChartItem> &GetItems() { return m_Items; };
-  size_t                        getTotal();
+  size_t                        GetTotal();
 
 private:
   const std::vector<ChartItem> m_Items;

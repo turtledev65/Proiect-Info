@@ -43,7 +43,7 @@ struct Ethnicity {
   Sex           sex;
   EthnicityType type;
 
-  std::string toJSON() const;
-  std::string getName() const;
+  std::string ToJSON() const;
+  std::string GetName() const;
 };
 } // namespace Statistics

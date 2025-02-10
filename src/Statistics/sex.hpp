@@ -10,6 +10,6 @@ struct Sex {
   size_t male   = 0;
   size_t female = 0;
 
-  size_t getTotal() const { return male + female; };
+  size_t GetTotal() const { return male + female; };
 };
 } // namespace Statistics

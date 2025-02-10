@@ -26,13 +26,13 @@ public:
 
   Ethnicity m_Ethnicities[ETHNICITY_COUNT];
 
-  std::string toJSON() const;
-  Sex         getSexTotal() const;
-  size_t      getTotalPopulation() const;
+  std::string ToJSON() const;
+  Sex         GetSexTotal() const;
+  size_t      GetTotalPopulation() const;
 
-  std::string        getId() const;
-  std::string        getHistoricalRegion() const;
-  const std::string &getName() const { return m_Name; }
+  std::string        GetId() const;
+  std::string        GetHistoricalRegion() const;
+  const std::string &GetName() const { return m_Name; }
 
 private:
   std::string m_Name = "";
