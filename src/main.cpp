@@ -198,7 +198,7 @@ void genereazaDocumentHTML(const std::vector<Area> &zone,
     generator.define("AREAS", Html::ConvertType::JSON, [zone]() {
       stringstream out;
 
-      out << "`{";
+      out << "{";
       for (size_t i = 0; i < zone.size(); i++) {
         const Area &zona = zone[i];
         out << zona.ToJSON();
@@ -206,7 +206,7 @@ void genereazaDocumentHTML(const std::vector<Area> &zone,
           out << ',';
         }
       }
-      out << "}`";
+      out << "}";
 
       return out.str();
     });

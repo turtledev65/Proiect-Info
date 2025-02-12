@@ -58,7 +58,7 @@ std::string Generator::parseTemplate()
               out << '`' << value.convert() << '`';
               break;
             case ConvertType::JSON:
-              out << "JSON.parse(" << value.convert() << ")";
+              out << "JSON.parse(`" << value.convert() << "`)";
               break;
             }
 
